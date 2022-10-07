@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Quiz mate!</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <script>
+        const socket = io()
+
+        function createRoom() {
+            var userName = document.getElementById("userName").value
+            if(userName == ""){
+                alert("Please enter a username!");
+            } else {
+                window.location.href = "/createRoom?userName=" + userName;
+            }
+        }
+
+        function joinRoom() {
+            var userName = document.getElementById("userName").value
+            if(userName == ""){
+                alert("Please enter a username!");
+            } else {
+                window.location.href = "/join?userName=" + userName;
+            }
+        }
+    </script>
+</head>
+<body class="index">
+    <div class="mainDiv">
+        <div class="content">
+            <div class="brand">
+                <p>Sam Presents</p>
+                <h1>Quiz Mate</h1>
+            </div>
+
+            <div class="inputName">
+                <label for="name">Name Please:</label><br>
+                <input type="text" placeholder="Enter your name..." id="userName">
+            </div>
+
+            <div class="buttons">
+                <button onclick="createRoom()">Create Room</button>
+                <button onclick="joinRoom()">Join Room</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

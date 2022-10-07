@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create Room || Quiz Mate</title>
+
+        <link rel="stylesheet" href="/css/main.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.11.0/qs.min.js"></script>
+        <script
+            src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+            integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+            crossorigin="anonymous"
+        ></script>
+
+        <script>
+            const socket = io();
+            const queries = Qs.parse(location.search, {
+                ignoreQueryPrefix: true,
+            });
+
+            window.question = 0;
+
+            socket.emit("createRoom", queries);
+
+            socket.on("error", (error) => {
+                alert(error);
+                location.href = "/";
+            });
+
+            socket.on("error2", (error) => {
+                alert(error);
+            });
+
+            socket.on("question", (question) => {
+                document.getElementById("question").innerHTML =
+                    question.question;
+                window.answerId = question.answerId;
+                document.getElementById("submit").innerHTML = "Submit";
+                document
+                    .getElementById("submit")
+                    .setAttribute("onclick", "submitAnswer()");
+                window.question = window.question + 1;
+                document.getElementById(
+                    "currentQuestion"
+                ).innerHTML = `${window.question} out of 10`;
+            });
+
+            socket.on("score", (points) => {
+                document.getElementById("points").innerHTML = points;
+            });
+
+            socket.on("nextQuestion", () => {
+                delete window.answerId;
+                socket.emit("question");
+            });
+
+            socket.on("wait", () => {
+                document.getElementById("question").innerHTML =
+                    "Waiting for others";
+                delete window.answerId;
+            });
+
+            socket.on("completed", (users) => {
+                var maxScore = 0;
+                var maxScorePlayer = "None";
+                document.getElementById("question").innerHTML =
+                    "Game Completed!";
+                document
+                    .getElementById("submit")
+                    .setAttribute("onclick", "exitToHome()");
+                document.getElementById("submit").innerHTML = "Exit";
+                document.getElementById("playersList").innerHTML =
+                    "<table id='playerListTable'></table>";
+                users.forEach((user) => {
+                    if (maxScore < user.score) {
+                        maxScore = user.score;
+                        maxScorePlayer = user.username;
+                    }
+                    document.getElementById("playerListTable").innerHTML += `\
+                        <tr>
+                            <td>${user.username}</td>
+                            <td>${user.score}</td>
+                            </tr>
+                            `;
+                });
+                document.getElementById("answer").style.display = "none";
+                document.getElementById(
+                    "currentQuestion"
+                ).innerHTML = `${maxScorePlayer} Won the game!`;
+            });
+
+            function submitAnswer() {
+                var answer = document.getElementById("answer");
+                if (window.answerId) {
+                    socket.emit("answer", {
+                        answer: answer.value,
+                        answerId: window.answerId,
+                    });
+                    answer.value = "";
+                } else {
+                    alert("Waiting for question!");
+                }
+            }
+
+            function start() {
+                socket.emit("start");
+            }
+
+            function exitToHome() {
+                window.location.href = "/";
+            }
+        </script>
+    </head>
+    <body class="room">
+        <div class="mainDiv">
+            <div class="content">
+                <div class="brand">
+                    <p>Sam Presents</p>
+                    <h1>Quiz Mate</h1>
+                </div>
+                <div class="question">
+                    <p><span id="currentQuestion"></span></p>
+                    <p>What is?</p>
+                    <h1 id="question">X x Y</h1>
+                </div>
+                <div class="answer">
+                    <input type="text" placeholder="Answer.." id="answer" />
+                    <br />
+                    <button id="submit" onclick="start()">Start</button>
+                </div>
+
+                <div id="playersList">
+                    <table>
+                        <tr>
+                            <td>Points</td>
+                            <td id="points">0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

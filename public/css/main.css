@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Peralta&display=swap");
+* {
+  font-family: "Peralta", cursive;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+body {
+  background-color: #f5efed;
+}
+
+.brand p {
+  color: #8e8e8e;
+  font-size: 14px;
+}
+
+.mainDiv {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mainDiv .content {
+  padding: 50px;
+}
+
+button {
+  background-color: #f2f4f3;
+  border: none;
+  color: #5e503f;
+  padding: 10px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  border: solid 2px #8e8e8e;
+  border-radius: 10px;
+}
+
+.index .inputName {
+  margin-top: 25px;
+  text-align: center;
+}
+.index .buttons {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.createRoom .content .roomCodeInput {
+  text-align: center;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.createRoom .content .roomCodeInput h2 {
+  color: #8e8e8e;
+  font-size: 24px;
+}
+.createRoom .content .roomCodeInput input {
+  text-align: center;
+  font-size: 30px;
+  width: 200px;
+  letter-spacing: 10px;
+  margin-top: 10px;
+}
+.createRoom .content .roomCodeInput button {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.room .content .question {
+  margin-top: 50px;
+  text-align: center;
+}
+.room .content .question #question {
+  font-size: 40px;
+}
+.room .content .answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+.room .content #playersList {
+  margin-top: 100px;
+}
+.room .content #playersList th, .room .content #playersList td {
+  padding: 10px;
+  text-align: center;
+}/*# sourceMappingURL=main.css.map */

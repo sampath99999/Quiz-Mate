@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create Room || Quiz Mate</title>
+
+        <link rel="stylesheet" href="/css/main.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.11.0/qs.min.js"></script>
+        <script>
+            const username = Qs.parse(location.search, {
+                ignoreQueryPrefix: true,
+            }).userName;
+
+            function createRoom(){
+                var roomCode = document.getElementById("roomCode").value
+                if(roomCode == ""){
+                    alert("Enter any four digit code!")
+                } else {
+                    if(roomCode.length != 4){
+                        alert("Enter any four digit code!")
+                    } else {
+                        if(isNaN(roomCode)){
+                            alert("Please enter only numbers!")
+                        } else {
+                            location.href = "/joinRoom?roomCode=" + roomCode + "&username=" + username;
+                        }
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body class="createRoom">
+        <div class="mainDiv">
+            <div class="content">
+                <div class="brand">
+                    <p>Sam Presents</p>
+                    <h1>Quiz Mate</h1>
+                </div>
+                <div class="roomCodeInput">
+                    <h2>Enter room code:</h2>
+                    <input type="text" id="roomCode">
+                    <button onclick="createRoom()">Continue</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
