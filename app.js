@@ -156,7 +156,7 @@ io.on("connection", (socket) => {
         var users = await userModel.find({ roomid: room._id }, "username score");
         var question = {};
 
-        if (room.questions == 2) {
+        if (room.questions == 10) {
             io.to(room.roomCode).emit("completed", users);
         } else {
             question = await getQuestion();
